@@ -9,7 +9,7 @@ class Node:
         return str(self.__data)
     
     def __repr__(self):
-        return "<Node: %r>"%self.__str__
+        return "<Node: %r>"%self.__data
     
     def set_next(self, node):
         self.__next = node
@@ -90,6 +90,23 @@ class LinkedList:
             if node.get_data() == element:
                 return index
     
+    def remove(self, element):
+        for node in self:
+            if node.get_data() == element:
+                if node.get_previous() is None: # is the head
+                    self.__first = node.get_next()
+                if node.get_next() is None: # is the tail
+                    self.__last = node.get_previous()
+                if node.get_next() and node.get_previous():
+                    node.get_previous().set_next(node.get_next())
+                    node.get_next().set_previous(node.get_previous())
+                if self.__count != 1: # if isn's the last element
+                    self.__first.set_previous(None)
+                    self.__last.set_next(None)
+                del(node)
+                self.__count -= 1
+                return
+
     def show_elements(self):
         elements = ''
         for element in self:
@@ -118,3 +135,10 @@ if __name__ == '__main__':
     print(ll.find(20))
     print(30 in ll)
     print(40 in ll)
+    ll.remove(50)
+    ll.remove(40)
+    ll.remove(60)
+    ll.remove(20)
+    ll.remove(20)
+    ll.show_elements()
+    print(len(ll))
