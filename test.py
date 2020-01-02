@@ -55,3 +55,40 @@ class LinkedListTest(TestCase):
 
     def test_find(self):
         self.assertEqual(self.linked_list.find(1), 0)
+
+    def test_not_find(self):
+        self.assertIsNone(self.linked_list.find(10))
+    
+    def test_pop_unique_element(self):
+        self.assertIsNone(self.linked_list.pop())
+        self.assertIsNone(self.linked_list._LinkedList__first)
+        self.assertIsNone(self.linked_list._LinkedList__last)
+
+    def test_lpop_unique_element(self):
+        self.assertIsNone(self.linked_list.lpop())
+        self.assertIsNone(self.linked_list._LinkedList__first)
+        self.assertIsNone(self.linked_list._LinkedList__last)
+
+    def test_pop_in_empty_list(self):
+        self.assertIsNone(self.linked_list.pop())
+        self.assertIsNone(self.linked_list.pop())
+
+    def test_lpop_in_empty_list(self):
+        self.assertIsNone(self.linked_list.lpop())
+        self.assertIsNone(self.linked_list.lpop())
+
+    def test_pop_element(self):
+        self.linked_list.append(2)
+        self.assertEqual(self.linked_list._LinkedList__count, 2)
+        self.linked_list.pop()
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__count, 1)
+    
+    def test_lpop_element(self):
+        self.linked_list.append(2)
+        self.assertEqual(self.linked_list._LinkedList__count, 2)
+        self.linked_list.lpop()
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 2)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 2)
+        self.assertEqual(self.linked_list._LinkedList__count, 1)
