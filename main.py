@@ -111,7 +111,7 @@ class LinkedList:
         elements = ''
         for element in self:
             elements += str(element.get_data()) + ', '
-        print('[%s]'%elements[:-2])
+        return '[%s]'%elements[:-2]
 
 
 if __name__ == '__main__':
@@ -119,18 +119,18 @@ if __name__ == '__main__':
     ll.append(10)
     ll.append(20)
     ll.append(30)
-    ll.show_elements()
+    print(ll.show_elements())
     print(len(ll))
     ll.pop()
-    ll.show_elements()
+    print(ll.show_elements())
     print(len(ll))
     ll.append(40)
     ll.append(50)
     ll.append(60)
-    ll.show_elements()
+    print(ll.show_elements())
     print(len(ll))
     ll.lpop()
-    ll.show_elements()
+    print(ll.show_elements())
     print(len(ll))
     print(ll.find(20))
     print(30 in ll)
@@ -140,5 +140,5 @@ if __name__ == '__main__':
     ll.remove(60)
     ll.remove(20)
     ll.remove(20)
-    ll.show_elements()
+    print(ll.show_elements())
     print(len(ll))
