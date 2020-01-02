@@ -37,9 +37,9 @@ class LinkedListTest(TestCase):
 
     def setUp(self):
         self.linked_list = LinkedList()
+        self.linked_list.append(1)
 
     def test_append(self):
-        self.linked_list.append(1)
         # first element
         self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
         self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
@@ -52,3 +52,6 @@ class LinkedListTest(TestCase):
         # chained elements
         self.assertEqual(self.linked_list._LinkedList__first._Node__next.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__last._Node__previous.get_data(), 1)
+
+    def test_find(self):
+        self.assertEqual(self.linked_list.find(1), 0)
