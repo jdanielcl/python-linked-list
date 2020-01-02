@@ -50,6 +50,11 @@ class LinkedList:
 
     def __contains__(self, element):
         return self.find(element) is not None
+    
+    def __add__(self, elements):
+        for element in elements:
+            self.append(element)
+        return self
 
     def append(self, element):
         new_node = Node(element)

@@ -192,3 +192,10 @@ class LinkedListTest(TestCase):
         self.linked_list.remove(1)
         self.assertIsNone(self.linked_list._LinkedList__last)
         self.assertIsNone(self.linked_list._LinkedList__first)
+    
+    def test_add_method(self):
+        add_linked_list = LinkedList()
+        add_linked_list.append(2)
+        add_linked_list.append(3)
+        self.linked_list += add_linked_list
+        self.assertEqual(len(self.linked_list), 3)
