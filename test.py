@@ -31,3 +31,24 @@ class NodeTest(TestCase):
 
     def test_get_str(self):
         self.assertEqual(str(self.value_a), str(self.node_a))
+
+
+class LinkedListTest(TestCase):
+
+    def setUp(self):
+        self.linked_list = LinkedList()
+
+    def test_append(self):
+        self.linked_list.append(1)
+        # first element
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__count, 1)
+        self.linked_list.append(2)
+        # second element
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 2)
+        self.assertEqual(self.linked_list._LinkedList__count, 2)
+        # chained elements
+        self.assertEqual(self.linked_list._LinkedList__first._Node__next.get_data(), 2)
+        self.assertEqual(self.linked_list._LinkedList__last._Node__previous.get_data(), 1)
