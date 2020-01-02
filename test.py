@@ -1,6 +1,7 @@
 from unittest import TestCase
 from main import LinkedList, Node
 
+
 class NodeTest(TestCase):
 
     def setUp(self):
@@ -34,6 +35,15 @@ class NodeTest(TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.node_a), "<Node: 10>")
+
+
+    
+def remove_test_aditional_data(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2)
+        self.linked_list.append(3)
+        func(self, *args, **kwargs)
+    return wrapper
 
 
 class LinkedListTest(TestCase):
@@ -131,3 +141,54 @@ class LinkedListTest(TestCase):
         self.assertRaises(StopIteration, next, my_iterator)
         my_iterator = iter(self.linked_list)
         self.assertEqual(str(next(my_iterator)), "1")
+
+    @remove_test_aditional_data
+    def test_remove_first_number(self):
+        lenght = len(self.linked_list)
+        self.linked_list.remove(1)
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 2)
+        self.assertIsNone(self.linked_list._LinkedList__first.get_previous())
+        self.assertEqual(len(self.linked_list), lenght-1)
+    
+    @remove_test_aditional_data
+    def test_remove_last_number(self):
+        lenght = len(self.linked_list)
+        self.linked_list.remove(3)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 2)
+        self.assertIsNone(self.linked_list._LinkedList__last.get_next())
+        self.assertEqual(len(self.linked_list), lenght-1)
+
+    @remove_test_aditional_data
+    def test_remove_middle_number(self):
+        lenght = len(self.linked_list)
+        self.linked_list.remove(2)
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 3)
+        self.assertEqual(self.linked_list._LinkedList__last.get_previous().get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__first.get_next().get_data(), 3)
+        self.assertEqual(len(self.linked_list), lenght-1)
+
+    def test_remove_first_of_two(self):
+        self.linked_list.append(2)
+        lenght = len(self.linked_list)
+        self.linked_list.remove(1)
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 2)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 2)
+        self.assertIsNone(self.linked_list._LinkedList__last.get_previous())
+        self.assertIsNone(self.linked_list._LinkedList__first.get_next())
+        self.assertEqual(len(self.linked_list), lenght-1)
+
+    def test_remove_last_of_two(self):
+        self.linked_list.append(2)
+        lenght = len(self.linked_list)
+        self.linked_list.remove(2)
+        self.assertEqual(self.linked_list._LinkedList__first.get_data(), 1)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+        self.assertIsNone(self.linked_list._LinkedList__last.get_previous())
+        self.assertIsNone(self.linked_list._LinkedList__first.get_next())
+        self.assertEqual(len(self.linked_list), lenght-1)
+
+    def test_remove_the_only_one(self):
+        self.linked_list.remove(1)
+        self.assertIsNone(self.linked_list._LinkedList__last)
+        self.assertIsNone(self.linked_list._LinkedList__first)
