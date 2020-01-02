@@ -32,6 +32,9 @@ class NodeTest(TestCase):
     def test_get_str(self):
         self.assertEqual(str(self.value_a), str(self.node_a))
 
+    def test_repr(self):
+        self.assertEqual(repr(self.node_a), "<Node: 10>")
+
 
 class LinkedListTest(TestCase):
 
@@ -92,3 +95,39 @@ class LinkedListTest(TestCase):
         self.assertEqual(self.linked_list._LinkedList__first.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__last.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__count, 1)
+    
+    def test_show_elements(self):
+        self.assertEqual(self.linked_list.show_elements(), '[1]')
+        self.linked_list.append(2)
+        self.assertEqual(self.linked_list.show_elements(), '[1, 2]')
+
+    def test_show_empty_list(self):
+        self.linked_list.pop()
+        self.assertEqual(self.linked_list.show_elements(), '[]')
+    
+    def test_len_method(self):
+        self.assertEqual(self.linked_list._LinkedList__count, 1)
+        self.assertEqual(len(self.linked_list), 1)
+        self.linked_list.append(2)
+        self.assertEqual(self.linked_list._LinkedList__count, 2)
+        self.assertEqual(len(self.linked_list), 2)
+    
+    def test_cero_len_method(self):
+        self.linked_list.pop()
+        self.assertEqual(self.linked_list._LinkedList__count, 0)
+        self.assertEqual(len(self.linked_list), 0)
+
+    def test_contains(self):
+        self.assertTrue(1 in self.linked_list)
+
+    def test_not_contains(self):
+        self.assertFalse(2 in self.linked_list)
+    
+    def test_iterator(self):
+        self.linked_list.append(2)
+        my_iterator = iter(self.linked_list)
+        self.assertEqual(str(next(my_iterator)), "1")
+        self.assertEqual(str(next(my_iterator)), "2")
+        self.assertRaises(StopIteration, next, my_iterator)
+        my_iterator = iter(self.linked_list)
+        self.assertEqual(str(next(my_iterator)), "1")
