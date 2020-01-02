@@ -199,3 +199,19 @@ class LinkedListTest(TestCase):
         add_linked_list.append(3)
         self.linked_list += add_linked_list
         self.assertEqual(len(self.linked_list), 3)
+    
+    def test_add_void_linked_list(self):
+        add_linked_list = LinkedList()
+        self.linked_list += add_linked_list
+        self.assertEqual(len(self.linked_list), 1)
+    
+    @remove_test_aditional_data
+    def test_sub_method(self):
+        original_lenght = len(self.linked_list)
+        subtract_linked_list = LinkedList()
+        subtract_linked_list.append(2)
+        subtract_linked_list.append(3)
+        temp_lenght = len(subtract_linked_list)
+        self.linked_list -= subtract_linked_list
+        self.assertEqual(len(self.linked_list), original_lenght-temp_lenght)
+        self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)

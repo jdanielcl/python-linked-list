@@ -53,7 +53,12 @@ class LinkedList:
     
     def __add__(self, elements):
         for element in elements:
-            self.append(element)
+            self.append(element.get_data())
+        return self
+    
+    def __sub__(self, elements):
+        for element in elements:
+            self.remove(element.get_data())
         return self
 
     def append(self, element):
