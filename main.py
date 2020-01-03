@@ -57,11 +57,13 @@ class LinkedListIterator:
 
 class LinkedList:
 
-    def __init__(self):
+    def __init__(self, elements=[]):
         self.__first = None
         self.__last = None
         self.__count = 0
-    
+        for element in elements:
+            self.append(element)
+
     def __iter__(self):
         return iter(LinkedListIterator(self))
     
@@ -98,15 +100,16 @@ class LinkedList:
         node_a.set_data(node_b.get_data())
         node_b.set_data(node_a_data)
 
-    def append(self, element):
-        new_node = Node(element)
-        if self.__first is None:
-            self.__first = new_node
-        if self.__last is not None:
-            new_node.set_previous(self.__last)
-            self.__last.set_next(new_node)
-        self.__last = new_node
-        self.__count += 1
+    def append(self, *elements):
+        for element in elements:
+            new_node = Node(element)
+            if self.__first is None:
+                self.__first = new_node
+            if self.__last is not None:
+                new_node.set_previous(self.__last)
+                self.__last.set_next(new_node)
+            self.__last = new_node
+            self.__count += 1
     
     def pop(self):
         if self.__last is not None:
