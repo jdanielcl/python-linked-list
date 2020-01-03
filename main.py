@@ -27,6 +27,26 @@ class Node:
         return self.__data
 
 
+class LinkedListIterator:
+
+    def __init__(self, linked_list, start=None):
+        if start:
+            self.start = start
+        else:
+            self.start = linked_list._LinkedList__first
+    
+    def __iter__(self):
+        self.__current = self.start
+        return self
+    
+    def __next__(self):
+        current = self.__current
+        if self.__current is None:
+            raise StopIteration
+        self.__current = self.__current.get_next()
+        return current
+
+
 class LinkedList:
 
     def __init__(self):
@@ -35,18 +55,10 @@ class LinkedList:
         self.__count = 0
     
     def __iter__(self):
-        self.__current = self.__first
-        return self
+        return iter(LinkedListIterator(self))
     
     def __len__(self):
         return self.__count
-    
-    def __next__(self):
-        current = self.__current
-        if self.__current is None:
-            raise StopIteration
-        self.__current = self.__current.get_next()
-        return current
 
     def __contains__(self, element):
         return self.find(element) is not None
@@ -122,6 +134,9 @@ class LinkedList:
         for element in self:
             elements += str(element.get_data()) + ', '
         return '[%s]'%elements[:-2]
+    
+    def iter_from_start_point(self, start_node):
+        return iter(LinkedListIterator(self, start_node))
 
 
 if __name__ == '__main__':

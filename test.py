@@ -141,6 +141,14 @@ class LinkedListTest(TestCase):
         self.assertRaises(StopIteration, next, my_iterator)
         my_iterator = iter(self.linked_list)
         self.assertEqual(str(next(my_iterator)), "1")
+    
+    @remove_test_aditional_data
+    def test_iterator_from_start_point(self):
+        # start from 2
+        start_node = self.linked_list._LinkedList__first.get_next()
+        my_iterator = self.linked_list.iter_from_start_point(start_node)
+        self.assertEqual(next(my_iterator).get_data(), 2)
+        self.assertEqual(next(my_iterator).get_data(), 3)
 
     @remove_test_aditional_data
     def test_remove_first_number(self):
