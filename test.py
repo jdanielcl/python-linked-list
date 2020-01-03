@@ -283,10 +283,34 @@ class LinkedListTest(TestCase):
         self.assertEqual(self.linked_list.show_elements(),'[2, 1]')
 
     @sort_test_aditional_data
-    def test_sort_data(self):
+    def test_selection_sort_data_set_one(self):
         self.linked_list.sort()
         self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
 
     def test_init_with_list(self):
         linked_list = LinkedList([1, 2, 3, 4, 5])
         self.assertEqual(linked_list.show_elements(),"[1, 2, 3, 4, 5]")
+
+    def test_selection_sort_data_set_two(self):
+        self.linked_list.append(5,3,4,2)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+    
+    def test_selection_sort_sorted_array(self):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+    
+    def test_selection_sort_repeated_elements(self):
+        self.linked_list.append(2, 2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 2, 2, 1]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 1, 2, 2, 2]")
+
+    def test_selection_sort_negative_elements(self):
+        self.linked_list.append(2, -2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, -2, 2, 1]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[-2, 1, 1, 2, 2]")
