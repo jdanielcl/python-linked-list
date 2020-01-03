@@ -80,6 +80,18 @@ class LinkedList:
         for element in elements:
             self.remove(element.get_data())
         return self
+    
+    def __selection_sort(self):
+        main_node = self.__first
+        while main_node.get_next():
+            lower = main_node
+            for sub_node in iter(self.iter_from_start_point(main_node.get_next())):
+                if sub_node.get_data() < lower.get_data():
+                    lower = sub_node
+            if lower.get_data() < main_node.get_data():
+                self.__exchange_nodes_data(main_node, lower)
+            main_node = main_node.get_next()
+
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
@@ -150,6 +162,12 @@ class LinkedList:
     
     def iter_from_start_point(self, start_node):
         return iter(LinkedListIterator(self, start_node))
+
+    def sort(self, method=None):
+        sort_method = self.__selection_sort
+        if method:
+            sort_method = method
+        sort_method()
 
 
 if __name__ == '__main__':

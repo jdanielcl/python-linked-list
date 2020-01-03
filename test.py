@@ -54,6 +54,18 @@ def exchange_test_aditional_data(func):
         func(self, *args, **kwargs)
     return wrapper
 
+def sort_test_aditional_data(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.pop()
+        self.linked_list.append(5)
+        self.linked_list.append(4)
+        self.linked_list.append(3)
+        self.linked_list.append(2)
+        self.linked_list.append(1)
+        self.assertEqual(self.linked_list.show_elements(),'[5, 4, 3, 2, 1]')
+        func(self, *args, **kwargs)
+    return wrapper
+
 
 class LinkedListTest(TestCase):
 
@@ -275,3 +287,8 @@ class LinkedListTest(TestCase):
         self.assertEqual(self.linked_list.show_elements(),'[1, 2]')
         self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
         self.assertEqual(self.linked_list.show_elements(),'[2, 1]')
+
+    @sort_test_aditional_data
+    def test_sort_data(self):
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
