@@ -40,8 +40,7 @@ class NodeTest(TestCase):
     
 def remove_test_aditional_data(func):
     def wrapper(self, *args, **kwargs):
-        self.linked_list.append(2)
-        self.linked_list.append(3)
+        self.linked_list.append(2, 3)
         func(self, *args, **kwargs)
     return wrapper
 
@@ -65,6 +64,10 @@ class LinkedListTest(TestCase):
         # chained elements
         self.assertEqual(self.linked_list._LinkedList__first._Node__next.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__last._Node__previous.get_data(), 1)
+    
+    def test_multiple_append(self):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
 
     def test_find(self):
         self.assertEqual(self.linked_list.find(1), 0)
@@ -203,8 +206,7 @@ class LinkedListTest(TestCase):
     
     def test_add_method(self):
         add_linked_list = LinkedList()
-        add_linked_list.append(2)
-        add_linked_list.append(3)
+        add_linked_list.append(2, 3)
         self.linked_list += add_linked_list
         self.assertEqual(len(self.linked_list), 3)
     
@@ -217,9 +219,12 @@ class LinkedListTest(TestCase):
     def test_sub_method(self):
         original_lenght = len(self.linked_list)
         subtract_linked_list = LinkedList()
-        subtract_linked_list.append(2)
-        subtract_linked_list.append(3)
+        subtract_linked_list.append(2, 3)
         temp_lenght = len(subtract_linked_list)
         self.linked_list -= subtract_linked_list
         self.assertEqual(len(self.linked_list), original_lenght-temp_lenght)
         self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+    
+    def test_init_with_list(self):
+        linked_list = LinkedList([1, 2, 3, 4, 5])
+        self.assertEqual(linked_list.show_elements(),"[1, 2, 3, 4, 5]")
