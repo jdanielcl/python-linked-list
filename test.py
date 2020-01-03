@@ -37,11 +37,20 @@ class NodeTest(TestCase):
         self.assertEqual(repr(self.node_a), "<Node: 10>")
 
 
-    
 def remove_test_aditional_data(func):
     def wrapper(self, *args, **kwargs):
         self.linked_list.append(2)
         self.linked_list.append(3)
+        func(self, *args, **kwargs)
+    return wrapper
+
+def exchange_test_aditional_data(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2)
+        self.linked_list.append(3)
+        self.linked_list.append(4)
+        self.linked_list.append(5)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
         func(self, *args, **kwargs)
     return wrapper
 
@@ -223,3 +232,46 @@ class LinkedListTest(TestCase):
         self.linked_list -= subtract_linked_list
         self.assertEqual(len(self.linked_list), original_lenght-temp_lenght)
         self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+    
+    @exchange_test_aditional_data
+    def test_exchange_extreme_nodes(self):
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__last
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[5, 2, 3, 4, 1]')
+
+    @exchange_test_aditional_data
+    def test_exchange_inner_nodes(self):
+        node_a = self.linked_list._LinkedList__first.get_next()
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 4, 3, 2, 5]')
+
+    @exchange_test_aditional_data
+    def test_exchange_inner_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__first.get_next().get_next()
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 4, 3, 5]')
+    
+    @exchange_test_aditional_data
+    def test_exchange_first_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__first.get_next()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[2, 1, 3, 4, 5]')
+
+    @exchange_test_aditional_data
+    def test_exchange_last_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__last
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 5, 4]')
+
+    def test_exchange_lasts_remaining_nodes(self):
+        self.linked_list.append(2)
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__last
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2]')
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[2, 1]')

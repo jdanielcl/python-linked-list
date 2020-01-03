@@ -25,6 +25,14 @@ class Node:
 
     def get_data(self):
         return self.__data
+    
+    def set_data(self, data):
+        self.__data = data
+
+    def show_node_info(self):
+        print("data:%r"%self.get_data())
+        print("previous: ",self.get_previous())
+        print("next: ",self.get_next())
 
 
 class LinkedListIterator:
@@ -72,6 +80,11 @@ class LinkedList:
         for element in elements:
             self.remove(element.get_data())
         return self
+
+    def __exchange_nodes_data(self, node_a, node_b):
+        node_a_data = node_a.get_data()
+        node_a.set_data(node_b.get_data())
+        node_b.set_data(node_a_data)
 
     def append(self, element):
         new_node = Node(element)
