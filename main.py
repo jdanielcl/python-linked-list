@@ -120,6 +120,28 @@ class LinkedList:
                 if swap:
                     inner_bubble_sort(end_node.get_previous())
         inner_bubble_sort(end_node)
+    
+    def __insertion_sort(self):
+        temp_linked_list = LinkedList()
+        temp_linked_list.append(self.__first.get_data())
+
+        def insert_sorted(node):
+            last = temp_linked_list.__last()
+            while last.get_previous() and last.get_previous.get_data() > node.get_data():
+                last = last.get_previous()
+            if last.get_previous() is None:
+                #lappend
+                pass
+            elif last.get_next() is None:
+                temp_linked_list.append(node.get_data())
+            else:
+                #insert_before_node(node)
+                pass
+
+        for node in self:
+            while node.get_previous() and node.get_previous().get_data() > node.get_data():
+                self.__exchange_nodes_data(node, node.get_previous())
+                node = node.get_previous()
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
