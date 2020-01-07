@@ -50,7 +50,8 @@ class LinkedListIterator:
     
     def __next__(self):
         current = self.__current
-        if self.__current is self.end:
+        if self.__current is None or\
+            (self.__current.get_previous() and self.__current.get_previous() is self.end):
             raise StopIteration
         self.__current = self.__current.get_next()
         return current
@@ -95,8 +96,17 @@ class LinkedList:
                 self.__exchange_nodes_data(main_node, lower)
             main_node = main_node.get_next()
 
-    def __burble_sort(self):
-        pass
+    def __bubble_sort(self):
+        end_node = self.__last
+        for _ in range(self.__count):
+            swap = False
+            for node in self.iter_upto_end_point(end_node):
+                if node.get_next() and node.get_data() > node.get_next().get_data():
+                    self.__exchange_nodes_data(node, node.get_next())
+                    swap = True
+            if swap is False:
+                return
+            end_node = end_node.get_previous()
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
@@ -171,6 +181,9 @@ class LinkedList:
     
     def iter_upto_end_point(self, end_node):
         return iter(LinkedListIterator(self, end=end_node))
+    
+    def bubble_sort(self):
+        return self.__bubble_sort()
 
     def sort(self, method=None):
         sort_method = self.__selection_sort

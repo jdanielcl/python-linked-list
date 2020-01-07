@@ -318,9 +318,21 @@ class LinkedListTest(TestCase):
     @exchange_test_aditional_data
     def test_iterator_upto_end_point(self):
         end_node = self.linked_list._LinkedList__last.get_previous()
-        # iterate upto 3, it doesn't include the item
+        # iterate upto 4, it doesn't include the item
         my_iterator = self.linked_list.iter_upto_end_point(end_node)
         self.assertEqual(next(my_iterator).get_data(), 1)
         self.assertEqual(next(my_iterator).get_data(), 2)
         self.assertEqual(next(my_iterator).get_data(), 3)
+        self.assertEqual(next(my_iterator).get_data(), 4)
         self.assertRaises(StopIteration, next, my_iterator)
+    
+    @sort_test_aditional_data
+    def test_bubble_sort_data_set_one(self):
+        self.linked_list.sort(self.linked_list.bubble_sort)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
+
+    def test_bubble_sort_data_set_two(self):
+        self.linked_list.append(5,3,4,2)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
+        self.linked_list.sort(self.linked_list.bubble_sort)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
