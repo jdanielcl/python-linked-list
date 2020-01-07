@@ -107,6 +107,19 @@ class LinkedList:
             if swap is False:
                 return
             end_node = end_node.get_previous()
+    
+    def __recursive_bubble_sort(self):
+        end_node = self.__last
+        def inner_bubble_sort(end_node):
+            if end_node:
+                swap = False
+                for node in self.iter_upto_end_point(end_node):
+                    if node.get_next() and node.get_data() > node.get_next().get_data():
+                        self.__exchange_nodes_data(node, node.get_next())
+                        swap = True
+                if swap:
+                    inner_bubble_sort(end_node.get_previous())
+        inner_bubble_sort(end_node)
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
@@ -184,6 +197,9 @@ class LinkedList:
     
     def bubble_sort(self):
         return self.__bubble_sort()
+    
+    def recursive_bubble_sort(self):
+        return self.__recursive_bubble_sort()
 
     def sort(self, method=None):
         sort_method = self.__selection_sort

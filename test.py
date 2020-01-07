@@ -50,14 +50,46 @@ def exchange_test_aditional_data(func):
         func(self, *args, **kwargs)
     return wrapper
 
-def sort_test_aditional_data(func):
+def sort_dataset_one(func):
     def wrapper(self, *args, **kwargs):
         self.linked_list.pop()
         self.linked_list.append(5, 4, 3, 2, 1)
         self.assertEqual(self.linked_list.show_elements(),'[5, 4, 3, 2, 1]')
         func(self, *args, **kwargs)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
     return wrapper
 
+def sort_dataset_two(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(5,3,4,2)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
+        func(self, *args, **kwargs)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
+    return wrapper
+
+def sort_dataset_three(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+        func(self, *args, **kwargs)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+    return wrapper
+
+def sort_dataset_four(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2, 2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 2, 2, 1]")
+        func(self, *args, **kwargs)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 1, 2, 2, 2]")
+    return wrapper
+
+def sort_dataset_five(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2, -2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, -2, 2, 1]")
+        func(self, *args, **kwargs)
+        self.assertEqual(self.linked_list.show_elements(), "[-2, 1, 1, 2, 2]")
+    return wrapper
 
 class LinkedListTest(TestCase):
 
@@ -282,38 +314,29 @@ class LinkedListTest(TestCase):
         self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
         self.assertEqual(self.linked_list.show_elements(),'[2, 1]')
 
-    @sort_test_aditional_data
+    @sort_dataset_one
     def test_selection_sort_data_set_one(self):
-        self.linked_list.sort()
-        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
+        self.linked_list.sort()        
 
     def test_init_with_list(self):
         linked_list = LinkedList([1, 2, 3, 4, 5])
         self.assertEqual(linked_list.show_elements(),"[1, 2, 3, 4, 5]")
 
+    @sort_dataset_two
     def test_selection_sort_data_set_two(self):
-        self.linked_list.append(5,3,4,2)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
         self.linked_list.sort()
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
     
+    @sort_dataset_three
     def test_selection_sort_sorted_array(self):
-        self.linked_list.append(2, 3, 4, 5)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
         self.linked_list.sort()
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
     
+    @sort_dataset_four
     def test_selection_sort_repeated_elements(self):
-        self.linked_list.append(2, 2, 2, 1)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 2, 2, 1]")
         self.linked_list.sort()
-        self.assertEqual(self.linked_list.show_elements(), "[1, 1, 2, 2, 2]")
 
+    @sort_dataset_five
     def test_selection_sort_negative_elements(self):
-        self.linked_list.append(2, -2, 2, 1)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, -2, 2, 1]")
         self.linked_list.sort()
-        self.assertEqual(self.linked_list.show_elements(), "[-2, 1, 1, 2, 2]")
     
     @exchange_test_aditional_data
     def test_iterator_upto_end_point(self):
@@ -326,13 +349,42 @@ class LinkedListTest(TestCase):
         self.assertEqual(next(my_iterator).get_data(), 4)
         self.assertRaises(StopIteration, next, my_iterator)
     
-    @sort_test_aditional_data
+    @sort_dataset_one
     def test_bubble_sort_data_set_one(self):
         self.linked_list.sort(self.linked_list.bubble_sort)
-        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
 
+    @sort_dataset_two
     def test_bubble_sort_data_set_two(self):
-        self.linked_list.append(5,3,4,2)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
         self.linked_list.sort(self.linked_list.bubble_sort)
-        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+
+    @sort_dataset_three
+    def test_bubble_sort_sorted_array(self):
+        self.linked_list.sort(self.linked_list.bubble_sort)
+    
+    @sort_dataset_four
+    def test_bubble_sort_repeated_elements(self):
+        self.linked_list.sort(self.linked_list.bubble_sort)
+
+    @sort_dataset_five
+    def test_bubble_sort_negative_elements(self):
+        self.linked_list.sort(self.linked_list.bubble_sort)
+
+    @sort_dataset_one
+    def test_recursive_bubble_sort_data_set_one(self):
+        self.linked_list.sort(self.linked_list.recursive_bubble_sort)
+
+    @sort_dataset_two
+    def test_recursive_bubble_sort_data_set_two(self):
+        self.linked_list.sort(self.linked_list.recursive_bubble_sort)
+
+    @sort_dataset_three
+    def test_recursive_bubble_sort_sorted_array(self):
+        self.linked_list.sort(self.linked_list.recursive_bubble_sort)
+    
+    @sort_dataset_four
+    def test_recursive_bubble_sort_repeated_elements(self):
+        self.linked_list.sort(self.linked_list.recursive_bubble_sort)
+
+    @sort_dataset_five
+    def test_recursive_bubble_sort_negative_elements(self):
+        self.linked_list.sort(self.linked_list.recursive_bubble_sort)
