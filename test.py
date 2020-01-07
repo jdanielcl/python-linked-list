@@ -37,11 +37,24 @@ class NodeTest(TestCase):
         self.assertEqual(repr(self.node_a), "<Node: 10>")
 
 
-    
 def remove_test_aditional_data(func):
     def wrapper(self, *args, **kwargs):
-        self.linked_list.append(2)
-        self.linked_list.append(3)
+        self.linked_list.append(2, 3)
+        func(self, *args, **kwargs)
+    return wrapper
+
+def exchange_test_aditional_data(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
+        func(self, *args, **kwargs)
+    return wrapper
+
+def sort_test_aditional_data(func):
+    def wrapper(self, *args, **kwargs):
+        self.linked_list.pop()
+        self.linked_list.append(5, 4, 3, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(),'[5, 4, 3, 2, 1]')
         func(self, *args, **kwargs)
     return wrapper
 
@@ -65,6 +78,10 @@ class LinkedListTest(TestCase):
         # chained elements
         self.assertEqual(self.linked_list._LinkedList__first._Node__next.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__last._Node__previous.get_data(), 1)
+    
+    def test_multiple_append(self):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
 
     def test_find(self):
         self.assertEqual(self.linked_list.find(1), 0)
@@ -203,8 +220,7 @@ class LinkedListTest(TestCase):
     
     def test_add_method(self):
         add_linked_list = LinkedList()
-        add_linked_list.append(2)
-        add_linked_list.append(3)
+        add_linked_list.append(2, 3)
         self.linked_list += add_linked_list
         self.assertEqual(len(self.linked_list), 3)
     
@@ -217,9 +233,84 @@ class LinkedListTest(TestCase):
     def test_sub_method(self):
         original_lenght = len(self.linked_list)
         subtract_linked_list = LinkedList()
-        subtract_linked_list.append(2)
-        subtract_linked_list.append(3)
+        subtract_linked_list.append(2, 3)
         temp_lenght = len(subtract_linked_list)
         self.linked_list -= subtract_linked_list
         self.assertEqual(len(self.linked_list), original_lenght-temp_lenght)
         self.assertEqual(self.linked_list._LinkedList__last.get_data(), 1)
+    
+    @exchange_test_aditional_data
+    def test_exchange_extreme_nodes(self):
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__last
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[5, 2, 3, 4, 1]')
+
+    @exchange_test_aditional_data
+    def test_exchange_inner_nodes(self):
+        node_a = self.linked_list._LinkedList__first.get_next()
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 4, 3, 2, 5]')
+
+    @exchange_test_aditional_data
+    def test_exchange_inner_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__first.get_next().get_next()
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 4, 3, 5]')
+    
+    @exchange_test_aditional_data
+    def test_exchange_first_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__first.get_next()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[2, 1, 3, 4, 5]')
+
+    @exchange_test_aditional_data
+    def test_exchange_last_neighbor_nodes(self):
+        node_a = self.linked_list._LinkedList__last
+        node_b = self.linked_list._LinkedList__last.get_previous()
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 5, 4]')
+
+    def test_exchange_lasts_remaining_nodes(self):
+        self.linked_list.append(2)
+        node_a = self.linked_list._LinkedList__first
+        node_b = self.linked_list._LinkedList__last
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2]')
+        self.linked_list._LinkedList__exchange_nodes_data(node_a, node_b)
+        self.assertEqual(self.linked_list.show_elements(),'[2, 1]')
+
+    @sort_test_aditional_data
+    def test_selection_sort_data_set_one(self):
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(),'[1, 2, 3, 4, 5]')
+
+    def test_init_with_list(self):
+        linked_list = LinkedList([1, 2, 3, 4, 5])
+        self.assertEqual(linked_list.show_elements(),"[1, 2, 3, 4, 5]")
+
+    def test_selection_sort_data_set_two(self):
+        self.linked_list.append(5,3,4,2)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 5, 3, 4, 2]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+    
+    def test_selection_sort_sorted_array(self):
+        self.linked_list.append(2, 3, 4, 5)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
+    
+    def test_selection_sort_repeated_elements(self):
+        self.linked_list.append(2, 2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 2, 2, 1]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[1, 1, 2, 2, 2]")
+
+    def test_selection_sort_negative_elements(self):
+        self.linked_list.append(2, -2, 2, 1)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, -2, 2, 1]")
+        self.linked_list.sort()
+        self.assertEqual(self.linked_list.show_elements(), "[-2, 1, 1, 2, 2]")
