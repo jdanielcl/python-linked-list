@@ -94,6 +94,8 @@ class LinkedList:
                 self.__exchange_nodes_data(main_node, lower)
             main_node = main_node.get_next()
 
+    def __burble_sort(self):
+        pass
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
