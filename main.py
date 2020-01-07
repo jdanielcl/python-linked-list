@@ -37,11 +37,12 @@ class Node:
 
 class LinkedListIterator:
 
-    def __init__(self, linked_list, start=None):
+    def __init__(self, linked_list, start=None, end=None):
         if start:
             self.start = start
         else:
             self.start = linked_list._LinkedList__first
+        self.end = end
     
     def __iter__(self):
         self.__current = self.start
@@ -49,7 +50,7 @@ class LinkedListIterator:
     
     def __next__(self):
         current = self.__current
-        if self.__current is None:
+        if self.__current is self.end:
             raise StopIteration
         self.__current = self.__current.get_next()
         return current
@@ -167,6 +168,9 @@ class LinkedList:
     
     def iter_from_start_point(self, start_node):
         return iter(LinkedListIterator(self, start_node))
+    
+    def iter_upto_end_point(self, end_node):
+        return iter(LinkedListIterator(self, end=end_node))
 
     def sort(self, method=None):
         sort_method = self.__selection_sort

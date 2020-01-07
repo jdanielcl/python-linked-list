@@ -314,3 +314,13 @@ class LinkedListTest(TestCase):
         self.assertEqual(self.linked_list.show_elements(), "[1, 2, -2, 2, 1]")
         self.linked_list.sort()
         self.assertEqual(self.linked_list.show_elements(), "[-2, 1, 1, 2, 2]")
+    
+    @exchange_test_aditional_data
+    def test_iterator_upto_end_point(self):
+        end_node = self.linked_list._LinkedList__last.get_previous()
+        # iterate upto 3, it doesn't include the item
+        my_iterator = self.linked_list.iter_upto_end_point(end_node)
+        self.assertEqual(next(my_iterator).get_data(), 1)
+        self.assertEqual(next(my_iterator).get_data(), 2)
+        self.assertEqual(next(my_iterator).get_data(), 3)
+        self.assertRaises(StopIteration, next, my_iterator)
