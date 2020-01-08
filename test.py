@@ -445,6 +445,26 @@ class LinkedListTest(TestCase):
     def test_recursive_bubble_sort_negative_elements(self):
         self.linked_list.sort(self.linked_list.recursive_bubble_sort)
 
+    @sort_dataset_one
+    def test_insertion_sort_data_set_one(self):
+        self.linked_list = self.linked_list.sort(self.linked_list.insertion_sort)
+
+    @sort_dataset_two
+    def test_insertion_sort_data_set_two(self):
+        self.linked_list = self.linked_list.sort(self.linked_list.insertion_sort)
+
+    @sort_dataset_three
+    def test_insertion_sort_sorted_array(self):
+        self.linked_list = self.linked_list.sort(self.linked_list.insertion_sort)
+    
+    @sort_dataset_four
+    def test_insertion_sort_repeated_elements(self):
+        self.linked_list = self.linked_list.sort(self.linked_list.insertion_sort)
+
+    @sort_dataset_five
+    def test_insertion_sort_negative_elements(self):
+        self.linked_list = self.linked_list.sort(self.linked_list.insertion_sort)
+
 
 class SortedLinkedListTest(TestCase):
 

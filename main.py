@@ -122,13 +122,13 @@ class LinkedList:
         inner_bubble_sort(end_node)
     
     def __insertion_sort(self):
-        temp_linked_list = LinkedList()
-        temp_linked_list.append(self.get_first().get_data())
-
+        sorted_linked_list = SortedLinkedList()
         for node in self:
-            while node.get_previous() and node.get_previous().get_data() > node.get_data():
-                self.__exchange_nodes_data(node, node.get_previous())
-                node = node.get_previous()
+            sorted_linked_list.append(node.get_data())
+        return sorted_linked_list
+    
+    def insertion_sort(self):
+        return self.__insertion_sort()
 
     def __exchange_nodes_data(self, node_a, node_b):
         node_a_data = node_a.get_data()
@@ -261,7 +261,7 @@ class LinkedList:
         sort_method = self.__selection_sort
         if method:
             sort_method = method
-        sort_method()
+        return sort_method()
 
 
 class SortedLinkedList(LinkedList):
