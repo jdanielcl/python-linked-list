@@ -127,6 +127,34 @@ class LinkedListTest(TestCase):
         self.linked_list.append(2, 3, 4, 5)
         self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
 
+    def test_insert_before_unique_node(self):
+        main_node = self.linked_list._LinkedList__first
+        node = Node(2)
+        self.linked_list._LinkedList__insert_before(main_node, node)
+        self.assertEqual(self.linked_list.show_elements(), "[2, 1]")
+    
+    def test_insert_before_between_two(self):
+        self.linked_list.append(3)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 3]")
+        main_node = self.linked_list._LinkedList__last
+        node = Node(2)
+        self.linked_list._LinkedList__insert_before(main_node, node)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3]")
+    
+    def test_insert_after_unique_node(self):
+        main_node = self.linked_list._LinkedList__first
+        node = Node(2)
+        self.linked_list._LinkedList__insert_after(main_node, node)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2]")
+    
+    def test_insert_after_between_two(self):
+        self.linked_list.append(3)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 3]")
+        main_node = self.linked_list._LinkedList__first
+        node = Node(2)
+        self.linked_list._LinkedList__insert_after(main_node, node)
+        self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3]")
+
     def test_find(self):
         self.assertEqual(self.linked_list.find(1), 0)
 

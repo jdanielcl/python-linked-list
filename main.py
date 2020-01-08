@@ -170,6 +170,24 @@ class LinkedList:
             self.__first = new_node
             self.__count += 1
 
+    def __insert_before(self, main_node, node):
+        if main_node.get_previous():
+            main_node.get_previous().set_next(node)
+            node.set_previous(main_node.get_previous())
+        else:
+            self.__first = node
+        main_node.set_previous(node)
+        node.set_next(main_node)
+
+    def __insert_after(self, main_node, node):
+        if main_node.get_next():
+            main_node.get_next().set_previous(node)
+            node.set_next(main_node.get_next())
+        else:
+            self.__last = node
+        main_node.set_next(node)
+        node.set_previous(main_node)
+
     def pop(self):
         if self.__last is not None:
             node = self.__last
