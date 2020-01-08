@@ -86,7 +86,7 @@ class LinkedList:
         return self
     
     def __selection_sort(self):
-        main_node = self.__first
+        main_node = self.get_first()
         while main_node.get_next():
             lower = main_node
             for sub_node in iter(self.iter_from_start_point(main_node.get_next())):
@@ -97,7 +97,7 @@ class LinkedList:
             main_node = main_node.get_next()
 
     def __bubble_sort(self):
-        end_node = self.__last
+        end_node = self.get_last()
         for _ in range(self.__count):
             swap = False
             for node in self.iter_upto_end_point(end_node):
@@ -109,7 +109,7 @@ class LinkedList:
             end_node = end_node.get_previous()
     
     def __recursive_bubble_sort(self):
-        end_node = self.__last
+        end_node = self.get_last()
         def inner_bubble_sort(end_node):
             if end_node:
                 swap = False
@@ -123,20 +123,7 @@ class LinkedList:
     
     def __insertion_sort(self):
         temp_linked_list = LinkedList()
-        temp_linked_list.append(self.__first.get_data())
-
-        def insert_sorted(node):
-            last = temp_linked_list.__last()
-            while last.get_previous() and last.get_previous.get_data() > node.get_data():
-                last = last.get_previous()
-            if last.get_previous() is None:
-                #lappend
-                pass
-            elif last.get_next() is None:
-                temp_linked_list.append(node.get_data())
-            else:
-                #insert_before_node(node)
-                pass
+        temp_linked_list.append(self.get_first().get_data())
 
         for node in self:
             while node.get_previous() and node.get_previous().get_data() > node.get_data():
@@ -148,26 +135,38 @@ class LinkedList:
         node_a.set_data(node_b.get_data())
         node_b.set_data(node_a_data)
 
+    def get_first(self):
+        return self.__first
+
+    def get_last(self):
+        return self.__last
+
+    def set_first(self, node):
+        self.__first = node
+
+    def set_last(self, node):
+        self.__last = node
+
     def append(self, *elements):
         for element in elements:
             new_node = Node(element)
-            if self.__first is None:
-                self.__first = new_node
-            if self.__last is not None:
-                new_node.set_previous(self.__last)
-                self.__last.set_next(new_node)
-            self.__last = new_node
+            if self.get_first() is None:
+                self.set_first(new_node)
+            if self.get_last() is not None:
+                new_node.set_previous(self.get_last())
+                self.get_last().set_next(new_node)
+            self.set_last(new_node)
             self.__count += 1
     
     def lappend(self, *elements):
         for element in elements:
             new_node = Node(element)
-            if self.__last is None:
-                self.__last = new_node
-            if self.__first:
-                new_node.set_next(self.__first)
-                self.__first.set_previous(new_node)
-            self.__first = new_node
+            if self.get_last() is None:
+                self.set_last(new_node)
+            if self.get_first():
+                new_node.set_next(self.get_first())
+                self.get_first().set_previous(new_node)
+            self.set_first(new_node)
             self.__count += 1
 
     def __insert_before(self, main_node, node):
@@ -175,7 +174,7 @@ class LinkedList:
             main_node.get_previous().set_next(node)
             node.set_previous(main_node.get_previous())
         else:
-            self.__first = node
+            self.set_first(node)
         main_node.set_previous(node)
         node.set_next(main_node)
 
@@ -184,31 +183,31 @@ class LinkedList:
             main_node.get_next().set_previous(node)
             node.set_next(main_node.get_next())
         else:
-            self.__last = node
+            self.set_last(node)
         main_node.set_next(node)
         node.set_previous(main_node)
 
     def pop(self):
-        if self.__last is not None:
+        if self.get_last() is not None:
             node = self.__last
-            if self.__last.get_previous() is not None:
-                self.__last.get_previous().set_next(None)
-                self.__last = node.get_previous()
+            if self.get_last().get_previous() is not None:
+                self.get_last().get_previous().set_next(None)
+                self.set_last(node.get_previous())
             else: # we have only an element in the list
-                self.__first = None
-                self.__last = None
+                self.set_first(None)
+                self.set_last(None)
             del(node)
             self.__count -=1
 
     def lpop(self):
-        if self.__first is not None:
-            node = self.__first
-            if self.__first.get_next() is not None:
-                self.__first = self.__first.get_next()
-                self.__first.set_previous(None)
+        if self.get_first() is not None:
+            node = self.get_first()
+            if self.get_first().get_next() is not None:
+                self.set_first(self.get_first().get_next())
+                self.get_first().set_previous(None)
             else:
-                self.__first = None
-                self.__last = None
+                self.set_first(None)
+                self.set_last(None)
             del(node)
             self.__count -= 1
         
@@ -221,15 +220,15 @@ class LinkedList:
         for node in self:
             if node.get_data() == element:
                 if node.get_previous() is None: # is the head
-                    self.__first = node.get_next()
+                    self.set_first(node.get_next())
                 if node.get_next() is None: # is the tail
-                    self.__last = node.get_previous()
+                    self.set_last(node.get_previous())
                 if node.get_next() and node.get_previous():
                     node.get_previous().set_next(node.get_next())
                     node.get_next().set_previous(node.get_previous())
                 if self.__count != 1: # if isn's the last element
-                    self.__first.set_previous(None)
-                    self.__last.set_next(None)
+                    self.get_first().set_previous(None)
+                    self.get_last().set_next(None)
                 del(node)
                 self.__count -= 1
                 return
