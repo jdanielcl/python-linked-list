@@ -177,6 +177,9 @@ class LinkedList:
             self.set_first(node)
         main_node.set_previous(node)
         node.set_next(main_node)
+    
+    def insert_before(self, main_node, node):
+        self.__insert_before(main_node, node)
 
     def __insert_after(self, main_node, node):
         if main_node.get_next():
@@ -186,6 +189,9 @@ class LinkedList:
             self.set_last(node)
         main_node.set_next(node)
         node.set_previous(main_node)
+    
+    def insert_after(self, main_node, node):
+        self.__insert_after(main_node, node)
 
     def pop(self):
         if self.get_last() is not None:
@@ -256,6 +262,29 @@ class LinkedList:
         if method:
             sort_method = method
         sort_method()
+
+
+class SortedLinkedList(LinkedList):
+
+    def __insert_sorted(self, node):
+        """
+            This implementation works like a insertion algorithm and it's implemented in a stable way
+        """
+        if self.get_first():
+            last = self.get_last()
+            while last.get_previous() and last.get_previous().get_data() > node.get_data():
+                last = last.get_previous()
+            if last.get_data() > node.get_data():
+                self.insert_before(last, node)
+            else:
+                self.insert_after(last, node)
+        else:
+            self.set_first(node)
+            self.set_last(node)
+        
+    def append(self, *elements):
+        for element in elements:
+            self.__insert_sorted(Node(element))
 
 
 if __name__ == '__main__':

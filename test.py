@@ -1,5 +1,5 @@
 from unittest import TestCase
-from main import LinkedList, Node
+from main import LinkedList, Node, SortedLinkedList
 
 
 class NodeTest(TestCase):
@@ -444,3 +444,27 @@ class LinkedListTest(TestCase):
     @sort_dataset_five
     def test_recursive_bubble_sort_negative_elements(self):
         self.linked_list.sort(self.linked_list.recursive_bubble_sort)
+
+
+class SortedLinkedListTest(TestCase):
+
+    def setUp(self):
+        self.sorted_linked_list = SortedLinkedList()
+
+    def test_append(self):
+        self.sorted_linked_list.append(10)
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[10]')
+        self.sorted_linked_list.append(30)
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[10, 30]')
+        self.sorted_linked_list.append(20)
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[10, 20, 30]')
+        self.sorted_linked_list.append(15, 25)
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[10, 15, 20, 25, 30]')
+    
+    def test_creation_from_iterable(self):
+        self.sorted_linked_list = SortedLinkedList([9, 1, 8, 3, 7, 10, 2])
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[1, 2, 3, 7, 8, 9, 10]')
+    
+    def test_append_equal_values(self):
+        self.sorted_linked_list = SortedLinkedList([2, 1, 3, 1, 2, 3, 2])
+        self.assertEqual(self.sorted_linked_list.show_elements(), '[1, 1, 2, 2, 2, 3, 3]')
