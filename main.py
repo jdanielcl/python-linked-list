@@ -159,6 +159,17 @@ class LinkedList:
             self.__last = new_node
             self.__count += 1
     
+    def lappend(self, *elements):
+        for element in elements:
+            new_node = Node(element)
+            if self.__last is None:
+                self.__last = new_node
+            if self.__first:
+                new_node.set_next(self.__first)
+                self.__first.set_previous(new_node)
+            self.__first = new_node
+            self.__count += 1
+
     def pop(self):
         if self.__last is not None:
             node = self.__last

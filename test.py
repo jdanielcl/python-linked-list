@@ -111,6 +111,18 @@ class LinkedListTest(TestCase):
         self.assertEqual(self.linked_list._LinkedList__first._Node__next.get_data(), 2)
         self.assertEqual(self.linked_list._LinkedList__last._Node__previous.get_data(), 1)
     
+    def test_lappend_empty_list(self):
+        self.linked_list.pop()
+        self.assertEqual(self.linked_list.show_elements(), "[]")
+        self.linked_list.lappend(3)
+        self.assertEqual(self.linked_list.show_elements(), "[3]")
+    
+    def test_lappend_not_empty_list(self):
+        self.linked_list.lappend(2)
+        self.assertEqual(self.linked_list.show_elements(), "[2, 1]")
+        self.linked_list.lappend(3)
+        self.assertEqual(self.linked_list.show_elements(), "[3, 2, 1]")
+    
     def test_multiple_append(self):
         self.linked_list.append(2, 3, 4, 5)
         self.assertEqual(self.linked_list.show_elements(), "[1, 2, 3, 4, 5]")
